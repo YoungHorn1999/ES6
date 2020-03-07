@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>test</title>
+        <style>
+            
+        </style>
+    </head>
+    <body>
+        
+    </body>
+    <script>
+        //1.箭头函数基本用法
+        var f = v => v;
+
+        // 等同于
+        var f = function (v) {
+        return v;
+        };
+
+        //--------------------------------------------
+
+        // 2.如果箭头函数不需要参数或需要多个参数，就使用一个圆括号代表参数部分。
+        var f = () => 5;
+        // 等同于
+        var f = function () { return 5 };
+
+        var sum = (num1, num2) => num1 + num2;
+        // 等同于
+        var sum = function(num1, num2) {
+        return num1 + num2;
+        };
+
+        // ----------------------------------------------
+
+        // 3.如果箭头函数的代码块部分多于一条语句，就要使用大括号将它们括起来，并且使用return语句返回。
+        var sum = (num1, num2) => { return num1 + num2; }
+
+        // --------------------------------------------------
+
+        // 4.由于大括号被解释为代码块，所以如果箭头函数直接返回一个对象，必须在对象外面加上括号，否则会报错。
+        // 报错
+        let getTempItem = id => { id: id, name: "Temp" };
+
+        // 不报错
+        let getTempItem = id => ({ id: id, name: "Temp" });
+
+        // -------------------------------------------------
+
+        // 5.如果箭头函数只有一行语句，且不需要返回值，可以采用下面的写法，就不用写大括号了。
+        let fn = () => void doesNotReturn();
+
+        // ---------------------------------------------------
+
+        // 6.箭头函数可以与变量解构结合使用。
+        const full = ({ first, last }) => first + ' ' + last;
+
+        // 等同于
+        function full(person) {
+        return person.first + ' ' + person.last;
+        }
+
+        // -------------------------------------------------
+
+        //7.箭头函数使得表达更加简洁。
+        const isEven = n => n % 2 === 0;
+        const square = n => n * n;
+
+        //-----------------------------------------------
+
+        // 8.箭头函数的一个用处是简化回调函数。
+        // 正常函数写法
+        [1,2,3].map(function (x) {
+        return x * x;
+        });
+
+        // 箭头函数写法
+        [1,2,3].map(x => x * x);
+
+        //---------------------------------------------
+
+        //9.this对象的指向是可变的，但是在箭头函数中，它是固定的。
+        function foo() {
+            setTimeout(() => {
+                console.log('id:', this.id);
+            }, 100);
+        }
+
+        var id = 21;
+
+        foo.call({ id: 42 });
+        // id: 42
+        //上面代码中，setTimeout的参数是一个箭头函数，这个箭头函数的定义生效是在foo函数生成时，而它的真正执行要等到 100 毫秒后。
+        //如果是普通函数，执行时this应该指向全局对象window，这时应该输出21。但是，箭头函数导致this总是指向函数定义生效时所在的对象
+        //（本例是{id: 42}），所以输出的是42。
+
+        // -------------------------------------------------
+
+        //10.箭头函数可以让setTimeout里面的this，绑定定义时所在的作用域，而不是指向运行时所在的作用域。
+        function Timer() {
+            this.s1 = 0;
+            this.s2 = 0;
+            // 箭头函数
+            setInterval(() => this.s1++, 1000);
+            // 普通函数
+            setInterval(function () {
+                    this.s2++;
+                }, 1000);
+            }
+
+        var timer = new Timer();
+
+        setTimeout(() => console.log('s1: ', timer.s1), 3100);
+        setTimeout(() => console.log('s2: ', timer.s2), 3100);
+        // s1: 3
+        // s2: 0
+        //上面代码中，Timer函数内部设置了两个定时器，分别使用了箭头函数和普通函数。前者的this绑定定义时所在的作用域（即Timer函数），
+        //后者的this指向运行时所在的作用域（即全局对象）。所以，3100 毫秒之后，timer.s1被更新了 3 次，而timer.s2一次都没更新。
+    </script>
+</html>

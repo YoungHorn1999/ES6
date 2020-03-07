@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>test</title>
+        <style>
+        </style>
+    </head>
+    <body>
+    </body>
+    <script>
+        // 1.定义了一个 Generator 函数helloWorldGenerator，它内部有两个yield表达式（hello和world）
+        function* helloWorldGenerator() {
+            yield 'hello';
+            yield 'world';
+            return 'ending';
+        }
+
+        var hw = helloWorldGenerator();
+
+        // -----------------------------------------
+
+        // 2.调用遍历器对象的next方法
+        hw.next()
+        // { value: 'hello', done: false }
+
+        hw.next()
+        // { value: 'world', done: false }
+
+        hw.next()
+        // { value: 'ending', done: true }
+
+        hw.next()
+        // { value: undefined, done: true }
+    </script>
+</html>
